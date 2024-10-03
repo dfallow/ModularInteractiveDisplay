@@ -13,9 +13,11 @@
   "jest": {
     "preset": "jest-expo"
   },
+  "type": "module",
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/native": "^6.0.2",
+    "axios": "^1.7.7",
     "cheerio": "^1.0.0",
     "expo": "~51.0.28",
     "expo-constants": "~16.0.2",
@@ -26,6 +28,7 @@
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
+    "express": "^4.21.0",
     "jsdom": "^25.0.1",
     "node-html-parser": "^6.1.13",
     "react": "18.2.0",
@@ -48,6 +51,5 @@
     "react-test-renderer": "18.2.0",
     "typescript": "~5.3.3"
   },
-  "private": true,
-  "type": "module"
+  "private": true
 }

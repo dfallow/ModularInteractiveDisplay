@@ -1,3 +1,4 @@
+//import ThesisList from "@/modules/ThesisList";
 import ThesisList from "@/modules/ThesisList";
 import { Text, View } from "react-native";
 
