@@ -7,6 +7,13 @@ const app = express();
 
 const link = "https://www.theseus.fi/discover?scope=10024%2F6&query=+nokia&rpp=30";
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
 app.get("/theses", async (req, res) => {
     try {
       //const { data } = await axios.get(link);
@@ -33,14 +40,14 @@ app.get("/theses", async (req, res) => {
             })
 
             $links.each((index, value) => {
-                console.log('index', index);
+                //console.log('index', index);
                 data.theses[index].handle = $(value).attr("href");
                 thesesData.push($(value).attr("href"))
             })
 
             res.json(data.theses);
         }
-                   
+
     } catch (error) {
       res.status(500).send("Error fetching theses");
     }
