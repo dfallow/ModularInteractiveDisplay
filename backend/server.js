@@ -28,13 +28,37 @@ app.get("/theses", async (req, res) => {
             const data = $.extract({
                 theses: [
                     {
-                        selector: '.col-sm-9.artifact-description',
+                        /* selector: '.col-sm-9.artifact-description',
                         value: {
                             title: 'h4',
                             author: '.author.h4',
                             publisher: '.publisher',
                             year: '.date',
-                        }
+                        },
+                        selector: 'thumbnail artifact-preview',
+                        value: {
+                            image: '.img-responsive.thumbnailcover'
+                        } */
+                       selector: '.row.ds-artifact-item',
+                       value: {
+                            img: {
+                                selector: '.img-responsive.thumbnailcover',
+                                value: (el, key) => {
+                                    const src = $(el).attr("src");
+                                    return `${key}=${src}`
+                                }
+                            },
+                            thesis: {
+                                selector: '.col-sm-9.artifact-description',
+                                value: {
+                                    title: 'h4',
+                                    author: '.author.h4',
+                                    publisher: '.publisher',
+                                    year: '.date',
+                                },
+                            }
+                            
+                       }
                     }
                 ]
             })
