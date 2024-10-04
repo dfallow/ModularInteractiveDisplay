@@ -5,6 +5,7 @@ import * as cheerio from "cheerio";
 
 const app = express();
 
+// Link for metropolia theses
 const link = "https://www.theseus.fi/discover?scope=10024%2F6&query=+nokia&rpp=30";
 
 app.use(function(req, res, next) {
