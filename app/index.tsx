@@ -10,6 +10,7 @@ export default function Index() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#ffffff",
       }}
     >
       <Link href="/modules/ThesisList">View Theses</Link>

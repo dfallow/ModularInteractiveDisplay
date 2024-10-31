@@ -31,6 +31,7 @@ export default function ThesisList() {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#ffffff",
         }}
       >
         <ActivityIndicator size="large" color="#0000ff" />
@@ -44,6 +45,7 @@ export default function ThesisList() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#ffffff",
       }}
     >
       <FlatList

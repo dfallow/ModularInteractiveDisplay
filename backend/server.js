@@ -2,6 +2,7 @@
 import axios from "axios";
 import express from "express";
 import * as cheerio from "cheerio";
+//import * as FileSystem from 'expo-file-system';
 
 const app = express();
 
@@ -77,6 +78,94 @@ app.get("/theses", async (req, res) => {
       res.status(500).send("Error fetching theses");
     }
   });
+
+   app.get("/download", async (req, res) => {
+    let handle = req.query.handle;
+    console.log('handle', handle);
+    try {
+        const response = await fetch(handle);
+        const $ = cheerio.load(await response.text());
+        console.log('cheerio', $);
+        
+
+        //console.log('response', $);
+        if (response.status == 200) {
+            console.log('response', response);
+            const $pages = $.find('.page');
+
+            console.log('pages', $pages);
+            $pages.each((index, value) => {
+                console.log('page', value);
+            })
+            console.log('pages', $pages);
+            const text = $.extract({
+                selector: ".page",
+                text: "span"
+            })
+
+            console.log('text', text);
+        }
+    } catch (error) {
+      res.status(500).send("Error fetching single thesis");
+    }
+  }); 
+
+  /* app.get("/download", async (req, res) => {
+    const callback = downloadProgress => {
+        let handle = req.query.handle;
+        console.log('handle', handle);
+        const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+        console.log(`Download progress: ${progress}`);
+
+        const downloadResumable = FileSystem.createDownloadResumable(
+            handle,
+            FileSystem.documentDirectory + 'thesis.pdf',
+            {},
+            callback
+        )
+    };
+
+    try {
+        const { uri } = await downloadResumable.downloadAsync();
+        console.log('Finished downloading to ', uri);
+    } catch (e) {
+        console.error('Download error: ', e);
+    }
+
+    try {
+        await downloadResumable.pauseAsync();
+        console.log('Paused download operation, saving for future retrieval');
+    } catch (e) {
+        console.error('Pause error: ', e);
+    }
+
+    try {
+        const { uri } = await downloadResumable.resumeAsync();
+        console.log('Finished downloading to ', uri);
+    } catch (e) {
+        console.error('Resume error: ', e);
+    }
+
+    const downloadSnapshotJson = await AsyncStorage.getItem('pausedDownload');
+const downloadSnapshot = JSON.parse(downloadSnapshotJson);
+const downloadResumable = new FileSystem.DownloadResumable(
+  downloadSnapshot.url,
+  downloadSnapshot.fileUri,
+  downloadSnapshot.options,
+  callback,
+  downloadSnapshot.resumeData
+);
+
+
+try {
+    const { uri } = await downloadResumable.resumeAsync();
+    console.log('Finished downloading to ', uri);
+  } catch (e) {
+    console.error(e);
+  }
+
+
+}); */
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
