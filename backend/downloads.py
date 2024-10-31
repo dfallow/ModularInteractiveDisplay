@@ -15,20 +15,25 @@ api_key = "sk-proj-RtS05q4L0n8GAvdJs4ZH1JPiytHkwayKjt-PIlre-W4CECXEaJAU3g0SiuUBx
 #file_path = 'backend/files/thesis.pdf'
 #urllib.request.urlretrieve(url, file_path)  
 
+# OpenAI API Client
 client = OpenAI(
     api_key=api_key,
 )
 
+# Download thesis pdf file from url
 def download_file(url, file_path):
     urllib.request.urlretrieve(url, file_path)
 
+# Extract text from the thesis pdf file
+# TODO - Extract text from all pages
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
         text = reader.pages[1].extract_text()
     return text
 
-
+# Ask a question to the OpenAI API Client
+# TODO - Input every page into the API
 def ask_question(text, question):
     response = client.chat.completions.create(
         model="gpt-4o", 
@@ -47,11 +52,8 @@ def ask_question(text, question):
 #pdf_path = 'backend/files/thesis.pdf'
 #pdf_text = extract_text_from_pdf(pdf_path)
 
-question = "Create 3 short bullet points for this thesis that will make a user interested in reading it."
-
-#answer = ask_question(pdf_text, question)
-
-#print(answer)
+# The Question that will be asked to AI
+question = "Create 3 short bullet points (max 80 characters per point) for this thesis that will make a user interested in reading it."
 
 # https://www.theseus.fi/bitstream/handle/10024/506961/Vainola_Lassi.pdf?sequence=2&isAllowed=y
 
@@ -61,7 +63,6 @@ cors = CORS(app)
 @cross_origin()
 def download():
     
-# Example function: Calculate factorial
     key = request.args.get('key', default="", type=str)
     retrieve = request.args.get('retrieve', default="false", type=str)
     base_url = 'https://www.theseus.fi/'
