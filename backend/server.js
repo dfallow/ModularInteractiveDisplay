@@ -30,17 +30,6 @@ app.get("/theses", async (req, res) => {
             const data = $.extract({
                 theses: [
                     {
-                        /* selector: '.col-sm-9.artifact-description',
-                        value: {
-                            title: 'h4',
-                            author: '.author.h4',
-                            publisher: '.publisher',
-                            year: '.date',
-                        },
-                        selector: 'thumbnail artifact-preview',
-                        value: {
-                            image: '.img-responsive.thumbnailcover'
-                        } */
                        selector: '.row.ds-artifact-item',
                        value: {
                             img: {
@@ -66,7 +55,6 @@ app.get("/theses", async (req, res) => {
             })
 
             $links.each((index, value) => {
-                //console.log('index', index);
                 data.theses[index].handle = $(value).attr("href");
                 thesesData.push($(value).attr("href"))
             })
@@ -109,63 +97,6 @@ app.get("/theses", async (req, res) => {
       res.status(500).send("Error fetching single thesis");
     }
   }); 
-
-  /* app.get("/download", async (req, res) => {
-    const callback = downloadProgress => {
-        let handle = req.query.handle;
-        console.log('handle', handle);
-        const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-        console.log(`Download progress: ${progress}`);
-
-        const downloadResumable = FileSystem.createDownloadResumable(
-            handle,
-            FileSystem.documentDirectory + 'thesis.pdf',
-            {},
-            callback
-        )
-    };
-
-    try {
-        const { uri } = await downloadResumable.downloadAsync();
-        console.log('Finished downloading to ', uri);
-    } catch (e) {
-        console.error('Download error: ', e);
-    }
-
-    try {
-        await downloadResumable.pauseAsync();
-        console.log('Paused download operation, saving for future retrieval');
-    } catch (e) {
-        console.error('Pause error: ', e);
-    }
-
-    try {
-        const { uri } = await downloadResumable.resumeAsync();
-        console.log('Finished downloading to ', uri);
-    } catch (e) {
-        console.error('Resume error: ', e);
-    }
-
-    const downloadSnapshotJson = await AsyncStorage.getItem('pausedDownload');
-const downloadSnapshot = JSON.parse(downloadSnapshotJson);
-const downloadResumable = new FileSystem.DownloadResumable(
-  downloadSnapshot.url,
-  downloadSnapshot.fileUri,
-  downloadSnapshot.options,
-  callback,
-  downloadSnapshot.resumeData
-);
-
-
-try {
-    const { uri } = await downloadResumable.resumeAsync();
-    console.log('Finished downloading to ', uri);
-  } catch (e) {
-    console.error(e);
-  }
-
-
-}); */
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");

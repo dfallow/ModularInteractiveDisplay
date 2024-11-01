@@ -1,22 +1,9 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, ActivityIndicator, Text, View } from "react-native";
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import QRCode from 'react-native-qrcode-svg';
-import OpenAI from "openai";
-const openai = new OpenAI({
-  apiKey: "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",
-  dangerouslyAllowBrowser: true
-});
 
-//import pdfjs from "pdfjs-dist/es5/build/pdf";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-
-//const PDFExtract = require('pdf.js-extract').PDFExtract;
-
-const url = "https://www.theseus.fi/bitstream/handle/10024/506961/Vainola_Lassi.pdf?sequence=2&isAllowed=y";
 export default function Index() {
-  const router = useRouter();
   const params = useLocalSearchParams();
   const { title, author, year, publisher, handle, img } = params;
 
@@ -33,7 +20,6 @@ export default function Index() {
       try {
         console.log("Downloading thesis...");
         console.log("QR Value:", qrValue);
-       //const response = await fetch(`http://localhost:3000/download?handle=${link}`);
         const response = await fetch(`http://127.0.0.1:5000/download?key=${link}`, {
           mode: 'cors'
         });
@@ -57,38 +43,19 @@ export default function Index() {
       
       setQrValue(baseLink + newFile);
       setQrLoading(false);
-
-      /* fetch(`http://localhost:5000/download`)  // This is the link to the backend server
-        .then(response => response.json())
-        .then(data => {
-          console.log('Data:', data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        }); */
         console.log("QR Value:", newFile);
         console.log("key sent to python:", newFile);
         
-        const test = downloadThesis(newFile);
+        downloadThesis(newFile);
 
         console.log("Test:", thesisText);
     }
 
-    
-    
-
-    //var link = document.createElement('a');
-    //link.href = url;
-    //link.download = 'file.pdf';
-    //link.dispatchEvent(new MouseEvent('click'));
   }, [img, thesisText]);  // Adding img as a dependency so this runs when img changes
   
 
   useEffect(() => {
-
-
     if (thesisText !== "") {
-     
       console.log("Thesis Text:", thesisText);
     }
 
