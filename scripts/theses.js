@@ -7,11 +7,14 @@ const years = ["dc.date.issued%3A2024", "dc.date.issued%3A2023", "dc.date.issued
 const getHTML = async(url) => {
 
     const response = await fetch(url);
+
+    //console.log('response', response)
     const handleArray = [];
 
     if(response.status == 200){
 
         const $ = cheerio.load(await response.text());
+
         const $class = $('.col-sm-9.artifact-description');
         const $links = $class.find('a');
 
@@ -44,5 +47,5 @@ const [thesisList, handleList] = await getHTML("https://www.theseus.fi/discover?
 
 const test = cheerio.load('<h2 class="title">Hello world</h2>');
 
-console.log( thesisList);
-console.log( handleList);
+//console.log( thesisList);
+//console.log( handleList);
