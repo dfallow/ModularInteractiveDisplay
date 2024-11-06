@@ -7,27 +7,62 @@ export default function Index() {
   const params = useLocalSearchParams();
   const { title, author, year, publisher, handle, img } = params;
 
-  const baseLink = "https://www.theseus.fi/";
+  const baseLink = "https://www.theseus.fi";
   const [qrValue, setQrValue] = useState("");
   const [qrLoading, setQrLoading] = useState(true);
 
   const [thesisText, setThesisText] = useState("");
-  
+  const [keyPointsLoading, setKeyPointsLoading] = useState(true);
+  const [downloadLink, setDownloadLink] = useState("");
 
+  console.log("Handle:", handle);
+  const test = typeof handle === 'string' ? handle.split("/") : []
+
+  console.log("Test:", test);
+  // Used to get the download link for the thesis
   useEffect(() => {
-
+    const fetchDownloadLink = async () => {
+      try {
+        console.log("FUll link:", handle);
+        const response = await fetch(`http://localhost:3000/single-thesis${handle}`, {
+          mode: 'cors',
+        });
+        const data = await response.text();
+        console.log("Download Link:", data);
+        setDownloadLink(data);
+      } catch (error) {
+        console.error("Error fetching download link:", error);
+      }
+    };
+    fetchDownloadLink();
+  }, []);
+  
+  // Used to download thesis and generate key points with AI
+  useEffect(() => {
+    
     const downloadThesis = async (link: string) => {
       try {
-        console.log("Downloading thesis...");
-        console.log("QR Value:", qrValue);
+        console.log("Downloading thesis...", link);
         const response = await fetch(`http://127.0.0.1:5000/download?key=${link}`, {
-          mode: 'cors'
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin':'*'
+          }
         });
         setThesisText(await response.text());
+        setKeyPointsLoading(false);
+
+        //console.log("Thesis Text:", await response.text());
+        //setQrLoading(false);
       } catch (error) {
         console.error("Error downloading thesis:", error);
       }
     }
+
+    if (downloadLink != "") {
+      console.log("Download Link:", downloadLink);
+      downloadThesis(downloadLink);
+    }  
 
     if (typeof img === 'string') {
       const imgArray = img.split('/');
@@ -45,21 +80,11 @@ export default function Index() {
       setQrLoading(false);
         console.log("QR Value:", newFile);
         console.log("key sent to python:", newFile);
-        
-        downloadThesis(newFile);
+        //console.log("Test:", thesisText);
+    } 
 
-        console.log("Test:", thesisText);
-    }
-
-  }, [img, thesisText]);  // Adding img as a dependency so this runs when img changes
+  }, [downloadLink]); 
   
-
-  useEffect(() => {
-    if (thesisText !== "") {
-      console.log("Thesis Text:", thesisText);
-    }
-
-  }, [thesisText]);
 
   if (qrLoading) {
     return (
@@ -95,9 +120,18 @@ export default function Index() {
         </View>
 
       </View>
-      <View style={styles.screenRight}>
-        <Text>This is a single thesis page</Text>
-      </View>
+      {
+        keyPointsLoading ? (
+          <View style={styles.screenRight}>
+            <Text>This is a single thesis page</Text>
+          </View>
+        ): (
+          <View style={styles.screenRight}>
+            <Text>{thesisText}</Text>
+          </View>
+        )
+      }
+      
       
 
       

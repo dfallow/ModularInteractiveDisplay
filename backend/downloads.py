@@ -43,6 +43,7 @@ def ask_question(text, question):
         }],
         max_tokens=150
     )
+    print("RESPONSE", response.choices[0].message.content)
     return response.choices[0].message.content
 
 # The Question that will be asked to AI
@@ -50,21 +51,29 @@ question = "Create 3 short bullet points (max 80 characters per point) for this 
 
 app = Flask(__name__)
 cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 @app.route('/download', methods=['GET'])
 @cross_origin()
 def download():
-    
+    print("HERE IS A TEST", request.args)
     key = request.args.get('key', default="", type=str)
+    fixed_key = key[1:]
+    print("KEY", key[1:])
     retrieve = request.args.get('retrieve', default="false", type=str)
-    base_url = 'https://www.theseus.fi/'
+    base_url = 'https://www.theseus.fi'
     file_path = 'backend/files/thesis.pdf'
 
     print("test", key)
     if retrieve == "false":
-        download_file(base_url + key, file_path)
+        print("DOWNLOAD FILE AT", base_url + fixed_key)
+        download_file(base_url + fixed_key, file_path)
         #downloaded = urllib.request.urlretrieve(base_url + key)
         pdf_text = extract_text_from_pdf(file_path)
+        print("PDF TEXT", pdf_text)
         answer = ask_question(pdf_text, question)
+        print("ANSWER", answer)
+        print("THIS IS A TEST")
         
         return ({'result': answer})
     else:

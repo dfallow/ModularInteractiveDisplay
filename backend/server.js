@@ -7,6 +7,7 @@ import * as cheerio from "cheerio";
 const app = express();
 
 // Link for metropolia theses
+const baseLink = "https://www.theseus.fi";
 const link = "https://www.theseus.fi/discover?scope=10024%2F6&query=+nokia&rpp=30";
 
 app.use(function(req, res, next) {
@@ -67,8 +68,31 @@ app.get("/theses", async (req, res) => {
     }
   });
 
+  app.get("/single-thesis/:handle/:group/:id", async (req, res) => {
+    try {
+        console.log('handle4', req.params);
+        const handleArray = req.params
+        const link = `${baseLink}/${handleArray.handle}/${handleArray.group}/${handleArray.id}`;
+        console.log('link', link);
+        
+        const response = await fetch(link);
+
+        if(response.status == 200) {
+            const $ = cheerio.load(await response.text());
+            //console.log('cheerio', $);
+
+            const test = $('div.item-page-field-wrapper.table.word-break > div > a').attr('href');
+            console.log('test', test);
+            res.json(test);
+        }
+
+    } catch (error) {
+      res.status(500).send("Error fetching single thesis");
+    }
+  });
+
    app.get("/download", async (req, res) => {
-    let handle = req.query.handle;
+    let handle = req;
     console.log('handle', handle);
     try {
         const response = await fetch(handle);

@@ -14,7 +14,6 @@ export default function ThesisList() {
         const response = await fetch("http://localhost:3000/theses");
         const data = await response.json();
         setTheses(data);
-        //console.log("Theses:", data);
       } catch (error) {
         console.error("Error fetching theses:", error);
       } finally {
@@ -22,7 +21,7 @@ export default function ThesisList() {
       }     
     };
     fetchTheses();
-  })
+  }, )
   
   if (loading) {
     return (
