@@ -47,7 +47,7 @@ def ask_question(text, question):
     return response.choices[0].message.content
 
 # The Question that will be asked to AI
-question = "Create 3 short bullet points (max 80 characters per point) for this thesis that will make a user interested in reading it."
+question = "Create 3 short bullet points (max 160 characters per point) for this thesis that will make a user interested in reading it."
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -75,7 +75,7 @@ def download():
         print("ANSWER", answer)
         print("THIS IS A TEST")
         
-        return ({'result': answer})
+        return answer
     else:
         return ({'result': 'No file provided'})
     

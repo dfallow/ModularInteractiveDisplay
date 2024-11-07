@@ -61,9 +61,12 @@ export default function Index() {
 
     if (downloadLink != "") {
       console.log("Download Link:", downloadLink);
+      const QrLink = baseLink + downloadLink.slice(1, -1);
+      setQrValue(QrLink);
+      setQrLoading(false);
       downloadThesis(downloadLink);
     }  
-
+/* 
     if (typeof img === 'string') {
       const imgArray = img.split('/');
       imgArray.shift();  // Removes the first element (instead of using delete)
@@ -81,7 +84,7 @@ export default function Index() {
         console.log("QR Value:", newFile);
         console.log("key sent to python:", newFile);
         //console.log("Test:", thesisText);
-    } 
+    }  */
 
   }, [downloadLink]); 
   
