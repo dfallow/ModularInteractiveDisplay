@@ -1,50 +1,57 @@
-import { StyleSheet, ActivityIndicator, FlatList, Text, View, Button, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, ActivityIndicator, FlatList, Text, View, Button, TextInput, TouchableOpacity, Pressable } from "react-native";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
+import SelectDropdown from 'react-native-select-dropdown'
+
+
+
+const uniCodes = [
+  {"uni": "Centria", "code": "10024%2F1900"},
+  {"uni": "Diakonia", "code": "10024%2F1552"},
+  {"uni": "Haaga-Helia", "code": "10024%2F431"},
+  {"uni": "Hämeen", "code": "10024%2F1766"},
+  {"uni": "Humanistinen", "code": "10024%2F2050"},
+  {"uni": "Jyväskylä", "code": "10024%2F5"},
+  {"uni": "Kaakkois-suomen", "code": "10024%2F12136"},
+  {"uni": "Kajaani", "code": "10024%2F1967"},
+  {"uni": "Karelia", "code": "10024%2F1620"},
+  {"uni": "Kymenlaakson", "code": "10024%2F1493"},
+  {"uni": "Lab", "code": "10024%2F266372"},
+  {"uni": "Lahden", "code":"10024%2F10"},
+  {"uni": "Lapin", "code": "10024%2F69720"},
+  {"uni": "Laurea", "code": "10024%2F12"},
+  {"uni": "Metropolia", "code": "10024%2F6"},
+  {"uni": "Mikkelin", "code": "10024%2F2074"},
+  {"uni": "Oulu", "code": "10024%2F2124"},
+  {"uni": "Poliisi", "code": "10024%2F86551"},
+  {"uni": "Saimaan", "code": "10024%2F1567"},
+  {"uni": "Satakunnan", "code": "10024%2F14"},
+  {"uni": "Savonia", "code": "10024%2F1476"},
+  {"uni": "Seinäjoen", "code": "10024%2F1"},
+  {"uni": "Tampere", "code": "10024%2F13"},
+  {"uni": "Turun", "code": "10024%2F15"},
+  {"uni":  "Vaasa", "code": "10024%2F1660"},
+  {"uni": "Yrkeshögskolan Arcada", "code": "10024%2F4"},
+  {"uni":  "Yrkeshögskolan Novia", "code": "10024%2F2188"},
+]
 
 const link = "discover?scope=10024%2F6&query=+nokia&rpp=30";
 
-const uniCodes = {
-  "centria": "10024%2F1900",
-  "diakonia": "10024%2F1552",
-  "haaga-helia": "10024%2F431",
-  "hämeen": "10024%2F1766",
-  "humanistinen": "10024%2F2050",
-  "jyväskylä": "10024%2F5",
-  "kaakkois-suomen": "10024%2F12136",
-  "kajaani": "10024%2F1967",
-  "Karelia": "10024%2F1620",
-  "Kymenlaakson": "10024%2F1493",
-  "lab": "10024%2F266372",
-  "Lahden":"10024%2F10",
-  "lapin": "10024%2F69720",
-  "laurea": "10024%2F12",
-  "Metropolia": "10024%2F6",
-  "Mikkelin": "10024%2F2074",
-  "oulu": "10024%2F2124",
-  "poliisi": "10024%2F86551",
-  "saimaan": "10024%2F1567",
-  "satakunnan": "10024%2F14",
-  "savonia": "10024%2F1476",
-  "seinäjoen": "10024%2F1",
-  "tampere": "10024%2F13",
-  "turun": "10024%2F15",
-  "vaasa": "10024%2F1660",
-  "Yrkeshögskolan Arcada": "10024%2F4",
-  "Yrkeshögskolan Novia": "10024%2F2188",
-}
-
+const linkStart = "discover?scope=";
+const linkEnd = "&query=+nokia&rpp=30";
 export default function ThesisList() {
   const stop = true;
 
+  const [selectedItem, setSelectedItem] = useState<any>([uniCodes[0].uni, uniCodes[0].code]);
+  const [searchedUni, setSearchedUni] = useState<any>(uniCodes[0].code);
   const [theses, setTheses] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<Boolean>(true);
 
   useEffect(() => {
     const fetchTheses = async () => {
       try {
-        console.log("Fetching theses...");
-        const response = await fetch(`http://localhost:3000/uni/${encodeURIComponent(link)}`);
+        console.log("Fetching theses from...", linkStart + searchedUni + linkEnd);
+        const response = await fetch(`http://localhost:3000/uni/${encodeURIComponent(linkStart + searchedUni + linkEnd)}`);
         const data = await response.json();
         setTheses(data);
       } catch (error) {
@@ -54,7 +61,7 @@ export default function ThesisList() {
       }     
     };
     fetchTheses();
-  }, [stop])
+  }, [searchedUni])
   
 
 
@@ -74,7 +81,35 @@ export default function ThesisList() {
           placeholder="Search for a thesis"
           placeholderTextColor={"#999"}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <SelectDropdown
+          data={uniCodes}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index)
+            setSelectedItem([selectedItem.uni, selectedItem.code]);
+          }}
+          renderButton={() => {
+            return (
+              <View>
+                <Text style={{color: 'black', fontSize: 16}}>{selectedItem[0]}</Text>
+              </View>
+            );
+          
+          }}
+          renderItem={(item, index, isSelected) => {
+            return (
+              <View>
+                <Text style={{color: 'black', fontSize: 16}}>{item.uni}</Text>
+              </View>
+            );
+          }}
+          showsVerticalScrollIndicator={true}
+        />
+        <TouchableOpacity style={styles.searchButton}
+          onPress={() => {
+            setTheses([]);
+            setSearchedUni(selectedItem[1]);
+          }}
+        >
           <Text>Search</Text>
         </TouchableOpacity>
       </View>
