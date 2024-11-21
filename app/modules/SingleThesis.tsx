@@ -52,8 +52,6 @@ export default function Index() {
         setThesisText(await response.text());
         setKeyPointsLoading(false);
 
-        //console.log("Thesis Text:", await response.text());
-        //setQrLoading(false);
       } catch (error) {
         console.error("Error downloading thesis:", error);
       }
@@ -66,52 +64,29 @@ export default function Index() {
       setQrLoading(false);
       downloadThesis(downloadLink);
     }  
-/* 
-    if (typeof img === 'string') {
-      const imgArray = img.split('/');
-      imgArray.shift();  // Removes the first element (instead of using delete)
-
-      console.log('Img Array:', imgArray);
-
-      const imgString = imgArray.join('/');
-      const newFile = imgString.replace(".jpg", "").replace(/=\d+&/, "=1&");
-
-      console.log('New File Link:', newFile);
-
-      
-      setQrValue(baseLink + newFile);
-      setQrLoading(false);
-        console.log("QR Value:", newFile);
-        console.log("key sent to python:", newFile);
-        //console.log("Test:", thesisText);
-    }  */
 
   }, [downloadLink]); 
   
 
-  if (qrLoading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#ffffff",
-        }}
-      >
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
+ 
 
   return (
     <View style={styles.screen}>
 
       <View style={styles.screenLeft}>
-        <QRCode 
-          value={qrValue}
-          size={300}
-           />
+
+        { qrLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ): (
+          <View style={styles.qrCode}>
+            <QRCode 
+            value={qrValue}
+            size={300}
+            />
+            <Text>(Scan to download)</Text>
+           </View>
+        )}
+        
         <View style={styles.thesisInfoBox}>
           <Text style={styles.thesisTitle}>{title}</Text>
           <View style={styles.thesisAuthDate}>
@@ -126,11 +101,13 @@ export default function Index() {
       {
         keyPointsLoading ? (
           <View style={styles.screenRight}>
-            <Text>This is a single thesis page</Text>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text>Generating key points</Text>
           </View>
         ): (
           <View style={styles.screenRight}>
             <Text>{thesisText}</Text>
+            <Text>(This text is AI generated)</Text>
           </View>
         )
       }
@@ -167,11 +144,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   qrCode: {
-
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "45%",
   },
   thesisInfoBox: {
       borderWidth: 1,
+      borderRadius: 10,
       padding: 10,
+      alignItems: "center",
   },
   thesisTitle: {
     padding: 5,
@@ -179,7 +160,8 @@ const styles = StyleSheet.create({
   },
   thesisAuthDate: {
       flexDirection: "row",
-      justifyContent: "space-around",
+      justifyContent: "space-between",
+      width: "80%",
       padding: 5,
   },
   thesisInfo: {

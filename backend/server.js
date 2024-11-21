@@ -7,7 +7,7 @@ import * as cheerio from "cheerio";
 const app = express();
 
 // Link for metropolia theses
-const baseLink = "https://www.theseus.fi";
+const baseLink = "https://www.theseus.fi/";
 const link = "https://www.theseus.fi/discover?scope=10024%2F6&query=+nokia&rpp=30";
 
 app.use(function(req, res, next) {
@@ -16,6 +16,63 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
+
+app.get("/uni/:uni", async (req, res) => {
+    console.log('test', "treuhwoifhew")
+    const test = req.params.uni;
+    console.log('test', test);
+
+    try {
+        const response = await fetch(baseLink + test);
+
+        if(response.status == 200) {
+            if(response.status == 200) {
+                const $ = cheerio.load(await response.text());
+                const thesesData = [];
+                const $class = $('.col-sm-9.artifact-description');
+                const $links = $class.find('a');
+    
+                const data = $.extract({
+                    theses: [
+                        {
+                           selector: '.row.ds-artifact-item',
+                           value: {
+                                img: {
+                                    selector: '.img-responsive.thumbnailcover',
+                                    value: (el, key) => {
+                                        const src = $(el).attr("src");
+                                        return `${key}=${src}`
+                                    }
+                                },
+                                thesis: {
+                                    selector: '.col-sm-9.artifact-description',
+                                    value: {
+                                        title: 'h4',
+                                        author: '.author.h4',
+                                        publisher: '.publisher',
+                                        year: '.date',
+                                    },
+                                }
+                                
+                           }
+                        }
+                    ]
+                })
+    
+                $links.each((index, value) => {
+                    data.theses[index].handle = $(value).attr("href");
+                    thesesData.push($(value).attr("href"))
+                })
+    
+                res.json(data.theses);
+            }
+        }
+    } catch (error) {
+        res.status(500).send("Error fetching theses");
+    }
+    
+    
+});
 
 app.get("/theses", async (req, res) => {
     try {

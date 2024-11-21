@@ -6,6 +6,8 @@ import { Alert, Button, Pressable, StyleSheet, Text, View } from "react-native";
 export default function Menu() {
   return (
     <View style={styles.screen}>
+
+        <Text style={styles.header}>Module Selection</Text>
       <View style={styles.navButtonBox}>
     
         <Pressable
@@ -40,15 +42,18 @@ export default function Menu() {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        justifyContent: "flex-end",
+        justifyContent: "space-around",
         alignItems: "center",
         backgroundColor: "#ffffff",
         width: "80%",
         marginBottom: 20,
     },
+    header: {
+        fontSize: 24,
+        marginBottom: 20,
+    },
     navButtonBox: {
         width: "100%",
-        borderWidth: 1,
         flexDirection: "row",
         justifyContent: "space-around",
     },
@@ -58,12 +63,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
+        borderRadius: 10,
+        marginBottom: 100,
         backgroundColor: "#008AE3",
     },
     navButtonText: {
-        borderWidth: 1,
         textAlign: "center",
+        color: "#ffffff",
     },
 })
