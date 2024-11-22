@@ -3,8 +3,6 @@ import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import SelectDropdown from 'react-native-select-dropdown'
 
-
-
 const uniCodes = [
   {"uni": "Centria", "code": "10024%2F1900"},
   {"uni": "Diakonia", "code": "10024%2F1552"},
@@ -33,20 +31,18 @@ const uniCodes = [
   {"uni":  "Vaasa", "code": "10024%2F1660"},
   {"uni": "Yrkeshögskolan Arcada", "code": "10024%2F4"},
   {"uni":  "Yrkeshögskolan Novia", "code": "10024%2F2188"},
-]
-
-const link = "discover?scope=10024%2F6&query=+nokia&rpp=30";
+];
 
 const linkStart = "discover?scope=";
 const linkEnd = "&query=+nokia&rpp=30";
 export default function ThesisList() {
-  const stop = true;
 
   const [selectedItem, setSelectedItem] = useState<any>([uniCodes[0].uni, uniCodes[0].code]);
   const [searchedUni, setSearchedUni] = useState<any>(uniCodes[0].code);
   const [theses, setTheses] = useState<any[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
 
+  //Fetches thesis list, runs when user clicks search button
   useEffect(() => {
     const fetchTheses = async () => {
       try {
@@ -63,8 +59,6 @@ export default function ThesisList() {
     fetchTheses();
   }, [searchedUni])
   
-
-
   return (
     <View
       style={{
