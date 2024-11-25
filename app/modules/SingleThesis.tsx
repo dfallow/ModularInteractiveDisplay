@@ -78,13 +78,24 @@ export default function Index() {
         { qrLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ): (
-          <View style={styles.qrCode}>
-            <QRCode 
-            value={qrValue}
-            size={300}
-            />
-            <Text>(Scan to download)</Text>
-           </View>
+          <View style={styles.qrElement}>
+            <View style={styles.qrCodeOutline}>
+              <View style={styles.qrCode}>
+                <QRCode 
+                value={qrValue}
+                size={300}
+                />
+              
+              </View>
+            </View>
+            <View style={styles.qrCodeOutlinePoint}>
+              <View style={styles.qrCodeOutlingPointHide} />
+            </View>
+            <View style={styles.qrCodeTextBox}>
+              <Text style={styles.qrCodeText}>Scan to download</Text>
+            </View>
+          </View>
+          
         )}
         
         <View style={styles.thesisInfoBox}>
@@ -143,10 +154,50 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
   },
+  qrElement: {
+    borderWidth: 0,
+  },
+  qrCodeOutline: {
+    borderWidth: 5,
+    borderRadius: 10,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  qrCodeOutlinePoint: {
+    position: "absolute",
+    bottom: -20,
+    left: "40%",
+    borderWidth: 5,
+    width: 40,
+    height: 40,
+    transform: [{ rotate: "45deg" }],
+    backgroundColor: "white",
+    borderTopStartRadius: 50,
+  },
+  qrCodeOutlingPointHide: {
+    width: 40,
+    height: 40,
+    backgroundColor: "white",
+    borderTopStartRadius: 20,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+  },
   qrCode: {
     alignItems: "center",
     justifyContent: "space-between",
-    height: "45%",
+    height: "90%",
+  },
+  qrCodeTextBox: {
+    position: "absolute",
+    bottom: -60,
+    left: "20%",
+  },
+  qrCodeText: {
+    fontSize: 24,
+    fontFamily: "sans-serif",
+    fontWeight: "bold",
   },
   thesisInfoBox: {
       borderWidth: 1,
