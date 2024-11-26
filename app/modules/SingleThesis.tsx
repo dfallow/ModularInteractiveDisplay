@@ -13,6 +13,7 @@ export default function Index() {
   const [qrLoading, setQrLoading] = useState(true);
 
   const [thesisText, setThesisText] = useState("");
+  const [keyPoints, setKeyPoints] = useState<String[]>([]);
   const [keyPointsLoading, setKeyPointsLoading] = useState(true);
   const [downloadLink, setDownloadLink] = useState("");
 
@@ -51,7 +52,6 @@ export default function Index() {
           }
         });
         setThesisText(await response.text());
-        setKeyPointsLoading(false);
 
       } catch (error) {
         console.error("Error downloading thesis:", error);
@@ -68,6 +68,26 @@ export default function Index() {
 
   }, [downloadLink]); 
   
+
+  useEffect(() => {
+    console.log("THESIS TEXT", thesisText)
+
+    if (thesisText !== "") {
+      const textArray = thesisText.split("\n");
+      console.log("Text Array:", textArray);
+      
+
+      textArray.forEach((element, index) => {
+        textArray[index] = element.substring(2).replace('.', '')
+      })
+
+      console.log("Text Array NEW:", textArray);
+      setKeyPoints(textArray);
+      setKeyPointsLoading(false);
+    }
+    
+
+  }, [thesisText])
 
  
 
@@ -114,8 +134,21 @@ export default function Index() {
           </View>
         ): (
           <View style={styles.screenRight}>
-            <Text>{thesisText}</Text>
-            <Text>(This text is AI generated)</Text>
+            <Text style={styles.keyPointsLabel}>Key Points:</Text>
+            <Text style={styles.aiLabel}>(This text is AI generated)</Text>
+            <View style={styles.generatedTextBox}>
+              {
+                keyPoints.map(str => {
+                  return (
+                    <View style={styles.keyPoint}>
+                      <Text style={styles.keyPointText}>{'\u2B24'}</Text>
+                      <Text style={styles.keyPointText}>{str}</Text>
+                    </View>
+                  )
+                })
+              }
+            </View>
+      
           </View>
         )
       }
@@ -133,7 +166,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
-    borderWidth: 1,
     margin: 5,
     backgroundColor: "#ffffff",
   },
@@ -142,14 +174,12 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: "center",
     justifyContent: "space-evenly",
-    borderWidth: 1,
   },
   screenRight: {
     flex: 0.6,
     height: '100%',
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1,
   },
   qrElement: {
     borderWidth: 0,
@@ -160,6 +190,8 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
   },
   qrCodeOutlinePoint: {
     position: "absolute",
@@ -171,6 +203,8 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "45deg" }],
     backgroundColor: "white",
     borderTopStartRadius: 50,
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.5,
   },
   qrCodeOutlingPointHide: {
     width: 40,
@@ -234,8 +268,38 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 460,
   },
+  keyPointsLabel: {
+    alignSelf: "flex-start",
+    marginLeft: "5%",
+    fontFamily: "sans-serif",
+    fontSize:28,
+    opacity: 0.7,
+    fontWeight: "bold",
+  },
+  aiLabel: {
+    alignSelf: "flex-start",
+    marginLeft: "5%",
+    marginBottom: 10,
+    fontFamily: "sans-serif",
+    fontSize:16,
+    opacity: 0.7,
+  },
   generatedTextBox: {
-
+    padding: 0,
+    width: "90%",
+  },
+  keyPoint: {
+    flexDirection: "row",
+    paddingVertical: 5,
+    alignItems: "center",
+  },
+  keyPointText: {
+    marginLeft: 10,
+    fontSize: 32,
+    fontWeight: "600",
+    alignSelf: "flex-start",
+    marginBottom: 5,
+    fontFamily: "sans-serif",
   },
   generatedText: {
 
