@@ -1,7 +1,9 @@
-import { StyleSheet, ActivityIndicator, FlatList, Text, View, Button, TextInput, TouchableOpacity, Pressable } from "react-native";
+import { StyleSheet, ActivityIndicator, FlatList, Text, View, Button, TextInput, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import SelectDropdown from 'react-native-select-dropdown'
+import { ThesisBox } from "@/components/moduleComps/ThesisBox";
+import { Hoverable, Pressable } from "react-native-web-hover";
 
 const uniCodes = [
   {"uni": "Centria", "code": "10024%2F1900"},
@@ -107,23 +109,7 @@ export default function ThesisList() {
           <Text>Search</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.headings}>
-        <View style={{...styles.title, ...{paddingLeft:10}}}>
-          <Text>Title</Text>
-        </View>
-        <View style={{...styles.author, ...{paddingLeft:30}}}>
-          <Text>Author</Text>
-        </View>
-        <View style={{...styles.year, ...{paddingLeft:50}}}>
-          <Text>Date</Text>
-        </View>
-        <View style={{...styles.publisher, ...{paddingLeft:80}}}>
-          <Text>Publisher</Text>
-        </View>
-        <View style={{...styles.year, ...{paddingLeft:30}}}>
-          <Text>Link</Text>
-        </View>
-      </View>
+      
       
       {
         loading ? 
@@ -131,37 +117,46 @@ export default function ThesisList() {
         : 
         <FlatList
         data={theses}
+        numColumns={3}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.singleThesis}>
-            <View style={styles.title}>
-              <Text style={styles.titleText}>{item.thesis.title}</Text>
-            </View>
-            <View style={styles.author}>
-              <Text>{item.thesis.author}</Text>
-            </View>
-            <View style={styles.year}>
-              <Text>{item.thesis.year}</Text>
-            </View>
-            <View style={styles.publisher}>
-              <Text style={styles.publisherText}>{item.thesis.publisher}</Text>
-            </View>
-            <View style={styles.viewButton}>
-              <Link href={{
-                pathname: "/modules/SingleThesis",
-                params: { 
-                  handle: item.handle,
-                  title: item.thesis.title,
-                  author: item.thesis.author,
-                  year: item.thesis.year,
-                  publisher: item.thesis.publisher,
-                  img: item.img
+          <Link href={{
+            pathname: "/modules/SingleThesis",
+            params: { 
+              handle: item.handle,
+              title: item.thesis.title,
+              author: item.thesis.author,
+              year: item.thesis.year,
+              publisher: item.thesis.publisher,
+              img: item.img
+            }
+          }}
+          >
+          <Hoverable 
+            style={styles.singleThesis}
+          >
+            {({ hovered }) => (
+              <View>
+                
+                <ThesisBox 
+                  title={item.thesis.title}
+                  author={item.thesis.author}
+                  year={item.thesis.year}
+                  publisher={item.thesis.publisher}
+                />
+                {hovered && 
+                  <View style={styles.hovered}>
+                    <Text style={styles.hoveredText}>Click to view</Text>
+                  </View>
                 }
-              }}
-              >View Thesis</Link>
-            </View>
+              </View>
+
+            )}
             
-          </View>
+            
+            
+          </Hoverable>
+          </Link>
         )}
       />
       }
@@ -173,7 +168,7 @@ export default function ThesisList() {
 
 const styles = StyleSheet.create({
   search: {
-    marginTop: 20,
+    marginVertical: 20,
     width: "70%",
     flexDirection: "row",
     alignItems: "center",
@@ -204,16 +199,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   singleThesis: {
-    width: "90%",
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf : "center",
-    justifyContent: "space-around",
-    borderWidth: 1,
-    borderRadius: 10,
     padding: 10,
-    marginVertical: 5,
-    flex: 1,
+    height: 250,
+  },
+  hovered: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "gray",
+    borderRadius: 25,
+    opacity: 0.7,
+  },
+  hoveredText: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
   },
   title: {
     maxWidth: "50%",
