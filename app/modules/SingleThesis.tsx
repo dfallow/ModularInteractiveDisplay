@@ -97,15 +97,25 @@ export default function Index() {
           </View>
           
         )}
-        
-        <View style={styles.thesisInfoBox}>
+
+        <View style={styles.thesis}>
+          
           <Text style={styles.thesisTitle}>{title}</Text>
-          <View style={styles.thesisAuthDate}>
-            <Text>{author}</Text>
-            <Text>({year})</Text>
+          <View style={styles.thesisRow}>  
+            <View style={styles.thesisGroup}>
+              <Text style={styles.thesisLabel}>Author:</Text>
+              <Text style={styles.thesisInfo}>{author}</Text>
+            </View>
+            <View style={styles.thesisGroup}>
+              <Text style={styles.thesisLabel}>Published:</Text>
+              <Text style={styles.thesisInfo}>{year}</Text>
+            </View>
+          </View>
+          <View style={styles.thesisPublisher}>
+            <Text style={styles.thesisLabel}>Publisher:</Text>
+            <Text style={styles.thesisInfo}>{publisher}</Text>
           </View>
           
-          <Text>{publisher}</Text>
         </View>
 
       </View>
@@ -199,24 +209,43 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif",
     fontWeight: "bold",
   },
-  thesisInfoBox: {
-      borderWidth: 1,
-      borderRadius: 10,
-      padding: 10,
-      alignItems: "center",
+  thesis: {
+    width: 500,
+    borderWidth: 3,
+    borderRadius: 25,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
+    padding: 20,
+    alignItems: "center",
   },
   thesisTitle: {
     padding: 5,
-    fontSize: 24,
+    fontSize: 20,
+    fontFamily: "sans-serif",
   },
-  thesisAuthDate: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      width: "80%",
-      padding: 5,
+  thesisRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  thesisGroup: {
+    width: 220,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  thesisLabel: {
+    fontSize: 16,
+    opacity: 0.5,
   },
   thesisInfo: {
-      
+    fontSize: 20,
+    marginLeft: 5,
+  },
+  thesisPublisher: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    width: 460,
   },
   generatedTextBox: {
 
