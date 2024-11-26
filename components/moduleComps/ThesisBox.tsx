@@ -12,7 +12,7 @@ interface ThesisBoxProps {
 export function ThesisBox({ title, author, year, publisher }: ThesisBoxProps) {
 
     return (
-        <View style={styles.thesis}>
+        <View style={styles.thesis}>    
           
           <Text style={styles.thesisTitle}>{title}</Text>
           <View style={styles.thesisRow}>  
@@ -37,12 +37,14 @@ export function ThesisBox({ title, author, year, publisher }: ThesisBoxProps) {
 const styles = StyleSheet.create({
     thesis: {
         width: 500,
+        height: 200,
         borderWidth: 3,
         borderRadius: 25,
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.5,
         padding: 20,
         alignItems: "center",
+        justifyContent: "space-evenly",
       },
       thesisTitle: {
         padding: 5,

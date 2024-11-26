@@ -2,7 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, ActivityIndicator, Text, View } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-import { ThesisBox } from "@/components/moduleComps/thesisBox";
+import { ThesisBox } from "@/components/moduleComps/ThesisBox";
 
 export default function Index() {
   const params = useLocalSearchParams();
