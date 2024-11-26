@@ -2,10 +2,11 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, ActivityIndicator, Text, View } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
+import { ThesisBox } from "@/components/moduleComps/thesisBox";
 
 export default function Index() {
   const params = useLocalSearchParams();
-  const { title, author, year, publisher, handle, img } = params;
+  const { title, author, year, publisher, handle } = params;
 
   const baseLink = "https://www.theseus.fi";
   const [qrValue, setQrValue] = useState("");
@@ -95,28 +96,14 @@ export default function Index() {
               <Text style={styles.qrCodeText}>Scan to download</Text>
             </View>
           </View>
-          
         )}
 
-        <View style={styles.thesis}>
-          
-          <Text style={styles.thesisTitle}>{title}</Text>
-          <View style={styles.thesisRow}>  
-            <View style={styles.thesisGroup}>
-              <Text style={styles.thesisLabel}>Author:</Text>
-              <Text style={styles.thesisInfo}>{author}</Text>
-            </View>
-            <View style={styles.thesisGroup}>
-              <Text style={styles.thesisLabel}>Published:</Text>
-              <Text style={styles.thesisInfo}>{year}</Text>
-            </View>
-          </View>
-          <View style={styles.thesisPublisher}>
-            <Text style={styles.thesisLabel}>Publisher:</Text>
-            <Text style={styles.thesisInfo}>{publisher}</Text>
-          </View>
-          
-        </View>
+        <ThesisBox
+          title={Array.isArray(title) ? title.join(", ") : title}
+          author={Array.isArray(author) ? author.join(", ") : author}
+          year={Array.isArray(year) ? year.join(", ") : year}
+          publisher={Array.isArray(publisher) ? publisher.join(", ") : publisher}
+        />
 
       </View>
       {
