@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     header: {
-        fontSize: 24,
+        fontSize: 42,
         marginBottom: 20,
     },
     navButtonBox: {
@@ -58,17 +58,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
     },
     navButton: {
-        width: "10%",
-        borderWidth: 1,
+        width: "20%",
+        borderWidth: 5,
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
         borderRadius: 10,
         marginBottom: 100,
-        backgroundColor: "#008AE3",
     },
     navButtonText: {
         textAlign: "center",
-        color: "#ffffff",
+        fontSize: 24,
     },
 })
