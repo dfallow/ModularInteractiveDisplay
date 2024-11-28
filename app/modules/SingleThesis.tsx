@@ -8,6 +8,12 @@ export default function Index() {
   const params = useLocalSearchParams();
   const { title, author, year, publisher, handle } = params;
 
+  const mockKeyPoints = [
+    "Innovative 5G Solution: Discover how Nokia's Endeavour tool enhances 5G system testing by solving complex data storage challenges.",
+    "Efficient Debugging: Learn how a cutting-edge implementation reduces workload and optimizes error reproduction from real-world customer logs.",
+    "Practical Engineering: A hands-on project using advanced tools like C++ and GTest to innovate in 5G message storage and system component testing."
+    ]
+
   const baseLink = "https://www.theseus.fi";
   const [qrValue, setQrValue] = useState("");
   const [qrLoading, setQrLoading] = useState(true);
@@ -19,6 +25,11 @@ export default function Index() {
 
   console.log("Handle:", handle);
   const test = typeof handle === 'string' ? handle.split("/") : []
+
+  setTimeout(() => {
+    setKeyPoints(mockKeyPoints);
+    setKeyPointsLoading(false);
+  }, 3000);
 
   console.log("Test:", test);
   // Used to get the download link for the thesis

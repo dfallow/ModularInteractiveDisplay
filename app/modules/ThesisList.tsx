@@ -43,6 +43,7 @@ export default function ThesisList() {
   const [searchedUni, setSearchedUni] = useState<any>(uniCodes[0].code);
   const [theses, setTheses] = useState<any[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
+  const [dropdown, setDropdown] = useState<Boolean>(false);
 
   //Fetches thesis list, runs when user clicks search button
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function ThesisList() {
       <View style={styles.search}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Search for a thesis"
+          placeholder="Search for a thesis..."
           placeholderTextColor={"#999"}
         />
         <SelectDropdown
@@ -85,16 +86,17 @@ export default function ThesisList() {
           }}
           renderButton={() => {
             return (
-              <View>
-                <Text style={{color: 'black', fontSize: 16}}>{selectedItem[0]}</Text>
+              <View style={styles.uniSelected}>
+                <Text style={styles.uniSelectorText}>{selectedItem[0]}</Text>
+                <Text style={styles.uniSelectorText}>{'\u2304' }</Text>
               </View>
             );
           
           }}
           renderItem={(item, index, isSelected) => {
             return (
-              <View>
-                <Text style={{color: 'black', fontSize: 16}}>{item.uni}</Text>
+              <View style={styles.uniSelector}>
+                <Text style={styles.uniSelectorText}>{item.uni}</Text>
               </View>
             );
           }}
@@ -103,6 +105,7 @@ export default function ThesisList() {
         <TouchableOpacity style={styles.searchButton}
           onPress={() => {
             setTheses([]);
+            setDropdown(false);
             setSearchedUni(selectedItem[1]);
           }}
         >
@@ -172,21 +175,45 @@ const styles = StyleSheet.create({
     width: "70%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-around",
   },
   searchBar: {
-    borderWidth: 1,
-    borderRadius: 5,
+    fontSize: 18,
+    borderWidth: 3,
+    borderRadius: 10,
+    justifyContent: "center",
+    height: 50,
     padding: 5,
     width: "60%",
   },
-  searchButton: {
-    borderWidth: 1,
+  uniSelected: {
+    flexDirection: "row",
+    borderWidth: 3,
+    width: "15%",
+    justifyContent: "space-between",
+    padding: 5,
+    paddingHorizontal:15,
+    height: 50,
+    borderRadius: 20,
+    alignItems: "center",
+  },
+  uniSelector: {
+    borderWidth: 2,
+    marginVertical: 2,
     borderRadius: 5,
+    paddingHorizontal: 5,
+  },
+  uniSelectorText: {
+    fontSize: 20,
+  },
+  searchButton: {
+    borderWidth: 3,
+    borderRadius: 20,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
     padding: 5,
     width: "10%",
-    alignItems: "center",
-    marginLeft: 10,
   },
   headings: {
     width: "90%",
