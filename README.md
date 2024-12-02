@@ -4,7 +4,7 @@
 The StandOut application is an innovation project which aims to showcase collaboration between students and Nokia. 
 
 # Table of Contents
-- [Installation](https://github.com/dfallow/ModularInteractiveDisplay/edit/main/README.md#installation)
+- [Installation](https://github.com/dfallow/ModularInteractiveDisplay?tab=readme-ov-file#installation)
 - [Usage](https://github.com/dfallow/ModularInteractiveDisplay/edit/main/README.md#usage)
 
 # Installation
