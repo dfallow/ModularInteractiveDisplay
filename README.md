@@ -1,50 +1,38 @@
-# Welcome to your Expo app 👋
+# StandOut Modular Interactive Display Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Overview
+The StandOut application is an innovation project which aims to showcase collaboration between students and Nokia. 
 
-## Get started
+# Table of Contents
+- [Installation](https://github.com/dfallow/ModularInteractiveDisplay/edit/main/README.md#installation)
+- [Usage](https://github.com/dfallow/ModularInteractiveDisplay/edit/main/README.md#usage)
 
-1. Install dependencies
+# Installation
 
-   ```bash
-   npm install
+1. Clone the repository:
+   
    ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
+      git clone https://github.com/dfallow/ModularInteractiveDisplay.git
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+3. Install dependencies
+   ```
+      npm install
+   ``` 
+# Usage
+1. Create a ```.env``` file in ```/backend``` with OpenAI API key
+   
+   ```
+      OPENAI_KEY=your_api_secret_key
+   ```
+3. Start express server
+   ```
+      node .\backend\server.js
+   ```
+4. In a sepertate terminal start flask server
+   ```
+      python .\backend\downloads.py
+   ```
+5. Start application in root directory
+   ```
+      npx expo start
+   ```
