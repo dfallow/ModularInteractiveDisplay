@@ -14,6 +14,7 @@ The StandOut application is an innovation project which aims to showcase collabo
    ```
       git clone https://github.com/dfallow/ModularInteractiveDisplay.git
    ```
+2. Local environment should have NodeJs and Python installed
 3. Install dependencies
    ```
       npm install
