@@ -26,11 +26,12 @@ export default function Index() {
   console.log("Handle:", handle);
   const test = typeof handle === 'string' ? handle.split("/") : []
 
-  setTimeout(() => {
+  // Used to create mock key points when AI was out of tokens
+ /*  setTimeout(() => {
     setKeyPoints(mockKeyPoints);
     setKeyPointsLoading(false);
   }, 3000);
-
+ */
   console.log("Test:", test);
   // Used to get the download link for the thesis
   useEffect(() => {
